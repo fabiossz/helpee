@@ -7,28 +7,27 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-
+	
 
 	<!-- importações CSS estaticas -->
-<!-- 	<link rel="stylesheet" href="../../static/assets/css/vendors/vendors.css" />  -->
-<!-- 	<link rel="stylesheet" href="../../static/assets/css/vendors/helpee.min.css" /> -->
-<!-- 	<link rel="stylesheet" href="../../static/assets/css/vendors/application.css" /> -->
-<!-- 	<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-masker/1.2.0/vanilla-masker.min.js"></script>  -->
-	
-		
+	<!-- 	<link rel="stylesheet" href="../../static/assets/css/vendors/vendors.css" />  -->
+	<!-- 	<link rel="stylesheet" href="../../static/assets/css/vendors/helpee.min.css" /> -->
+	<!-- 	<link rel="stylesheet" href="../../static/assets/css/vendors/application.css" /> -->
+	<!-- 	<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-masker/1.2.0/vanilla-masker.min.js"></script>  -->
 
-	<script>		
-	
+
+
+	<script>
 		window.onload = () => {
 			VMasker(drt).maskPattern('999999999');
-			VMasker(cpf).maskPattern('999.999.999-99');	
+			VMasker(cpf).maskPattern('999.999.999-99');
 			VMasker(telefone).maskPattern('(99)9999-9999');
 			VMasker(celular).maskPattern('(99)99999-9999');
 			VMasker(dataDeNascimento).maskPattern('99/99/9999');
 			VMasker(dataDeAdmissao).maskPattern('99/99/9999');
 			VMasker(numeroEndereco).maskPattern('99999');
-			VMasker(cep).maskPattern('99999999');		
-			
+			VMasker(cep).maskPattern('99999999');
+
 		}
 	</script>
 
@@ -42,12 +41,13 @@
 			<div class="container-fluid">
 				<h1>Cadastro de Funcionário</h1>
 			</div>
-		</div>  
- 
+		</div>
+
 		<div class="container-fluid">
 
 
-			<form class="form-vertical js-form-loading form--cadastro-funcionario" method="POST" th:object="${funcionarioDTO}" th:action="@{/funcionarios/novo}">
+			<form class="form-vertical js-form-loading form--cadastro-funcionario" method="POST"
+				th:object="${funcionarioDTO}" th:action="@{/funcionarios/novo}">
 
 				<th:block th:include="/layout/fragments/MensagensSucesso"></th:block>
 
@@ -60,11 +60,11 @@
 					<th:block>
 						<div>
 							<span th:text="${messageErrors}"></span>
-						</div> 
+						</div>
 					</th:block>
 				</div>
-				
-				
+
+
 
 				<div class="panel-group">
 					<div class="panel panel-info">
@@ -72,46 +72,46 @@
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-sm-4">
-									<div class="from-group" th:classappend="${#fields.hasErrors('idCargo')}? 'has-error'">
+									<div class="from-group" th:classappend="${#fields.hasErrors('cargo')}? 'has-error'">
 										<div th:classappend="${not #strings.isEmpty(messageErrorCargo)}? has-error">
 											<label class="control-label" for="cargo">Cargo</label>
 											
-											<select class="form-control" id="cargo" th:field="*{idCargo}"
+											<select class="form-control" id="cargo" th:field="*{cargo}"
 												data-th-disabled="${not #strings.isEmpty(disabled)}" data-required="required" data-message="Cargo é obrigatório."> 
 												<option value="">Selecione o Cargo</option>	
 												<option th:each="c : ${cargos}" th:value="${c.id}" th:text="${c.titulo}"></option>										
 											</select>
 											
-												<p class="control-label" th:if="${#fields.hasErrors('idCargo')}" th:each="error : ${#fields.errors('idCargo')}" th:text="${error}"></p>
+												<p class="control-label" th:if="${#fields.hasErrors('cargo')}" th:each="error : ${#fields.errors('cargo')}" th:text="${error}"></p>
 										</div>
 									</div>  
 								</div> 
 
 								<div class="col-sm-4">
-									<div class="from-group departamentos" th:classappend="${#fields.hasErrors('departamentoId')}? 'has-error'">
+									<div class="from-group departamentos" th:classappend="${#fields.hasErrors('departamento')}? 'has-error'">
 										<div th:classappend="${not #strings.isEmpty(messageErrorDepartamento)}? has-error">
 											<label class="control-label" for="departamento">Departamento</label>
 											
-											<select class="form-control departamentos__selected" id="departamento" th:field="*{departamentoId}"
+											<select class="form-control departamentos__selected" id="departamento" th:field="*{departamento}"
 												data-th-disabled="${not #strings.isEmpty(disabled)}" data-required="required" data-message="Departamento é
 												obrigatório.">
 												<option value="">Selecione o Departamento</option>
 												<option th:each="dep : ${departamentos}" th:value="${dep.id}" th:text="${dep.descricao}"></option>		
 											</select>										
-												<p class="control-label" th:if="${#fields.hasErrors('departamentoId')}" th:each="error : ${#fields.errors('departamentoId')}" th:text="${error}"></p>
+												<p class="control-label" th:if="${#fields.hasErrors('departamento')}" th:each="error : ${#fields.errors('departamento')}" th:text="${error}"></p>
 										</div> 								
 									</div>  
 								</div>  
 
 								<div class="col-sm-4">
-									<div class="form-group" th:classappend="${#fields.hasErrors('setoresDepartamento')}? 'has-error'">
+									<div class="form-group" th:classappend="${#fields.hasErrors('setor')}? 'has-error'">
 										<label class="control-label" for="setor">Setor</label>
-										<select class="form-control setores__show" id="setor" th:field="*{setoresDepartamento}" 
+										<select class="form-control setores__show" id="setor" th:field="*{setor}" 
 											data-th-disabled="${not #strings.isEmpty(disabled)}" data-required="required" data-message="Setor é
 											obrigatório.">
 											<option value="">Selecione o Setor</option>																						
 										</select>
- 									<p class="control-label" th:if="${#fields.hasErrors('setoresDepartamento')}" th:each="error : ${#fields.errors('setoresDepartamento')}" th:text="${error}"></p>  
+ 									<p class="control-label" th:if="${#fields.hasErrors('setor')}" th:each="error : ${#fields.errors('setor')}" th:text="${error}"></p>  
 									</div>
 								</div>
 
@@ -277,37 +277,37 @@
 
 							<div class="row">
 								<div class="col-sm-6">
-									<div class="form-group" th:classappend="${#fields.hasErrors('logradouroEndereco')}? 'has-error'">
+									<div class="form-group" th:classappend="${#fields.hasErrors('endereco.logradouro')}? 'has-error'">
 										<label class="control-label" for="logradouro">Logradouro</label>
 										<input class="form-control" type="text" id="logradouro"
-											th:field="*{logradouroEndereco}"
+											th:field="*{endereco.logradouro}"
 											data-th-disabled="${not #strings.isEmpty(disabled)}" data-required="required" data-message="Logradouro é
 											obrigatório."/>
-											<p class="control-label" th:if="${#fields.hasErrors('logradouroEndereco')}" th:each="error : ${#fields.errors('logradouroEndereco')}" th:text="${error}"></p>	
+											<p class="control-label" th:if="${#fields.hasErrors('endereco.logradouro')}" th:each="error : ${#fields.errors('endereco.logradouro')}" th:text="${error}"></p>	
 												
 									</div>
 								</div>
 								
 								<div class="col-sm-2">
-									<div class="form-group" th:classappend="${#fields.hasErrors('numeroEndereco')}? 'has-error'">
+									<div class="form-group" th:classappend="${#fields.hasErrors('endereco.numero')}? 'has-error'">
 										<label class="control-label" for="numeroEndereco">Nº</label>
 										<input class="form-control" type="number" id="numeroEndereco"
-											th:field="*{numeroEndereco}"
+											th:field="*{endereco.numero}"
 											data-th-disabled="${not #strings.isEmpty(disabled)}" data-required="required" data-message="Número do Logradouro é
 											obrigatório."/>
-											<p class="control-label" th:if="${#fields.hasErrors('numeroEndereco')}" th:each="error : ${#fields.errors('numeroEndereco')}" th:text="${error}"></p>
+											<p class="control-label" th:if="${#fields.hasErrors('endereco.numero')}" th:each="error : ${#fields.errors('endereco.numero')}" th:text="${error}"></p>
 									</div>
 								</div>
 
 								<div class="col-sm-4">
-									<div class="form-group" th:classappend="${#fields.hasErrors('complementoEndereco')}? 'has-error'">
+									<div class="form-group" th:classappend="${#fields.hasErrors('endereco.complemento')}? 'has-error'">
 										<label class="control-label" for="complemento">Complemento</label>
 										<input class="form-control" type="text" id="complemento"
-											th:field="*{complementoEndereco}"
+											th:field="*{endereco.complemento}"
 											data-th-disabled="${not #strings.isEmpty(disabled)}" data-required="required" data-message="Complemento do Logradouro é
 											obrigatório."/>
 											
-											<p class="control-label" th:if="${#fields.hasErrors('complementoEndereco')}" th:each="error : ${#fields.errors('complementoEndereco')}" th:text="${error}"></p>	
+											<p class="control-label" th:if="${#fields.hasErrors('endereco.complemento')}" th:each="error : ${#fields.errors('endereco.complemento')}" th:text="${error}"></p>	
 									</div>
 								</div>
 							</div>
@@ -315,34 +315,34 @@
 							<div class="row">
 							
 								<div class="col-sm-4">
-									<div class="form-group" th:classappend="${#fields.hasErrors('bairroEndereco')}? 'has-error'">
+									<div class="form-group" th:classappend="${#fields.hasErrors('endereco.bairro')}? 'has-error'">
 										<label class="control-label" for="bairro">Bairro</label>
 										<input class="form-control" type="text" id="bairro"
-											th:field="*{bairroEndereco}"
+											th:field="*{endereco.bairro}"
 											data-th-disabled="${not #strings.isEmpty(disabled)}" data-required="required" data-message="Bairro é
 											obrigatório."/>
-											<p class="control-label" th:if="${#fields.hasErrors('bairroEndereco')}" th:each="error : ${#fields.errors('bairroEndereco')}" th:text="${error}"></p>
+											<p class="control-label" th:if="${#fields.hasErrors('endereco.bairro')}" th:each="error : ${#fields.errors('endereco.bairro')}" th:text="${error}"></p>
 									</div>
 								</div>
 								
 								<div class="col-sm-4">
-									<div class="form-group" th:classappend="${#fields.hasErrors('cidadeEndereco')}? 'has-error'">
+									<div class="form-group" th:classappend="${#fields.hasErrors('endereco.cidade')}? 'has-error'">
 										<label class="control-label" for="cidade">Cidade</label>
 										<input class="form-control" type="text" id="cidade"
-											th:field="*{cidadeEndereco}"
+											th:field="*{endereco.cidade}"
 											data-th-disabled="${not #strings.isEmpty(disabled)}" data-required="required" data-message="Cidade é
 											obrigatório."/>
 											
-											<p class="control-label" th:if="${#fields.hasErrors('cidadeEndereco')}" th:each="error : ${#fields.errors('cidadeEndereco')}" th:text="${error}"></p>	
+											<p class="control-label" th:if="${#fields.hasErrors('endereco.cidade')}" th:each="error : ${#fields.errors('endereco.cidade')}" th:text="${error}"></p>	
 											
 											
 									</div>
 								</div>
 
 								<div class="col-sm-4">
-									<div class="form-group" th:classappend="${#fields.hasErrors('estadoEndereco')}? 'has-error'">
+									<div class="form-group" th:classappend="${#fields.hasErrors('endereco.estado')}? 'has-error'">
 										<label class="control-label" for="estado">Estado</label>
-										<select class="form-control" id="estado" th:field="*{estadoEndereco}"
+										<select class="form-control" id="estado" th:field="*{endereco.estado}"
 											data-th-disabled="${not #strings.isEmpty(disabled)}" data-required="required" data-message="Estado é
 											obrigatório.">
 											<option value="">Selecione o Estado</option>
@@ -374,7 +374,7 @@
 											<option value="SE">Sergipe</option>
 											<option value="TO">Tocantins</option>
 										</select>
-										<p class="control-label" th:if="${#fields.hasErrors('estadoEndereco')}" th:each="error : ${#fields.errors('estadoEndereco')}" th:text="${error}"></p>											
+										<p class="control-label" th:if="${#fields.hasErrors('endereco.estado')}" th:each="error : ${#fields.errors('endereco.estado')}" th:text="${error}"></p>											
 										
 									</div>
 								</div>
@@ -384,13 +384,13 @@
 							
 							<div class="row">
 								<div class="col-sm-3">
-									<div class="form-group" th:classappend="${#fields.hasErrors('cepEndereco')}? 'has-error'">
+									<div class="form-group" th:classappend="${#fields.hasErrors('endereco.cep')}? 'has-error'">
 										<label class="control-label" for="cep">CEP</label>
-										<input class="form-control cep__funcionario" type="number" id="cep" th:field="*{cepEndereco}"
+										<input class="form-control cep__funcionario" type="number" id="cep" th:field="*{endereco.cep}"
 											data-th-disabled="${not #strings.isEmpty(disabled)}" data-required="required" data-message="CEP é
 											obrigatório."/>
 											
-											<p class="control-label" th:if="${#fields.hasErrors('cepEndereco')}" th:each="error : ${#fields.errors('cepEndereco')}" th:text="${error}"></p>
+											<p class="control-label" th:if="${#fields.hasErrors('endereco.cep')}" th:each="error : ${#fields.errors('endereco.cep')}" th:text="${error}"></p>
 									</div>
 								</div>
 							</div>
@@ -415,6 +415,7 @@
 	</section>
 	
 	
+
 	<!-- Importações estaticas do JS
 	<script src="../../static/assets/js/vendors/vendors.min.js"></script>
 	<script src="../../static/assets/js/vendors/helpee.min.js"></script> -->

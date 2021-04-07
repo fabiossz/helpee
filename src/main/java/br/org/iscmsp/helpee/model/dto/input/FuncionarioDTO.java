@@ -1,9 +1,9 @@
-package br.org.iscmsp.helpee.model.input.dto;
+package br.org.iscmsp.helpee.model.dto.input;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import javax.persistence.Column;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -15,11 +15,12 @@ import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import br.org.iscmsp.helpee.model.Endereco;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter 
+@Getter
 @Setter
 @ToString
 public class FuncionarioDTO implements Serializable {
@@ -49,9 +50,9 @@ public class FuncionarioDTO implements Serializable {
 	private LocalDate data_nascimento;
 
 	@NotBlank(message = "E-mail é obrigatório.")
-	@Email(message = "E-mail inválido.")	
+	@Email(message = "E-mail inválido.")
 	private String email;
-	
+
 	private String telefone_residencial;
 
 	@NotBlank(message = "Celular é obrigatório.")
@@ -65,45 +66,19 @@ public class FuncionarioDTO implements Serializable {
 	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate data_demissao;
 
-	@NotBlank(message = "Logradouro é obrigatório.")
-	@Size(min = 1, max = 120, message = "Logradouro deve conter entre {min} e {max} caracteres.")
-	private String logradouroEndereco;
-
-	@NotBlank(message = "Número é obrigatório.")
-	@Size(min = 1, max = 5, message = "Número do Endereço deve conter entre {min} e {max} caracteres.")
-	private String numeroEndereco;
-
-	@NotBlank(message = "Complemento é obrigatório.")
-	@Size(min = 1, max = 60, message = "Complemento do Endereço deve conter entre {min} e {max} caracteres.")
-	private String complementoEndereco;
-
-	@NotBlank(message = "Bairro é obrigatório.")
-	@Size(min = 1, max = 60, message = "Bairro deve conter entre {min} e {max} caracteres.")
-	private String bairroEndereco;
-
-	@Column(nullable = false, length = 40)
-	@NotBlank(message = "Cidade é obrigatório.")
-	@Size(min = 1, max = 60, message = "Cidade deve conter entre {min} e {max} caracteres.")
-	private String cidadeEndereco;
-	
-	@NotBlank(message = "Estado é obrigatório.")
-	@Size(min = 2, max = 2, message = "Estado deve conter {max} caracteres.")	
-	private String estadoEndereco;
-
-	@NotBlank(message = "CEP é obrigatório.")
-	@Pattern(regexp = "\\d{5}\\d{3}", message = "CEP deve estar no formato 00000000")
-	private String cepEndereco;
+	@Valid
+	@NotNull
+	private Endereco endereco;
 
 	@NotNull(message = "Departamento é obrigatório.")
 	@Pattern(regexp = "\\d", message = "Departamento inválido.")
-	private String departamentoId;
+	private String departamento;
 
 	@NotEmpty(message = "Setor é obrigatório.")
-	private String setoresDepartamento;
-	
-	@NotEmpty(message = "Cargo é obrigatório.")	
-	private String idCargo;
-	
-	
+	private String setor;
+
+	@NotEmpty(message = "Cargo é obrigatório.")
+	private String cargo;
 
 }
+

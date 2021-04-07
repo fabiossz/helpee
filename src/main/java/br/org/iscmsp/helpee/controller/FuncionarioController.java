@@ -3,10 +3,15 @@ package br.org.iscmsp.helpee.controller;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.org.iscmsp.helpee.controller.page.PageWrapper;
 import br.org.iscmsp.helpee.controller.validators.CpfCadastrado;
 import br.org.iscmsp.helpee.controller.validators.DataAdmissaoAnteriorDataAtual;
 import br.org.iscmsp.helpee.controller.validators.DataNascimentoAnteriorDataAtual;
@@ -30,47 +36,50 @@ import br.org.iscmsp.helpee.controller.validators.FuncionarioMaiorDeIdade;
 import br.org.iscmsp.helpee.controller.validators.NomeFuncionarioCadastrado;
 import br.org.iscmsp.helpee.model.Cargo;
 import br.org.iscmsp.helpee.model.Departamento;
-import br.org.iscmsp.helpee.model.Endereco;
 import br.org.iscmsp.helpee.model.EstadoCivil;
 import br.org.iscmsp.helpee.model.Funcionario;
 import br.org.iscmsp.helpee.model.Genero;
 import br.org.iscmsp.helpee.model.converter.FuncionarioConverter;
-import br.org.iscmsp.helpee.model.input.dto.FuncionarioDTO;
+import br.org.iscmsp.helpee.model.dto.input.FuncionarioDTO;
+import br.org.iscmsp.helpee.model.dto.output.FuncionarioPesquisaDTO;
+import br.org.iscmsp.helpee.model.dto.output.specification.FuncionarioPesquisaSpec;
 import br.org.iscmsp.helpee.repository.CargoRepository;
 import br.org.iscmsp.helpee.repository.DepartamentoRepository;
-import br.org.iscmsp.helpee.repository.EnderecoRespository;
 import br.org.iscmsp.helpee.repository.FuncionarioRepository;
+import br.org.iscmsp.helpee.service.EnderecoService;
 import br.org.iscmsp.helpee.service.FuncionarioService;
 
 @Controller
 @RequestMapping("/funcionarios")
 public class FuncionarioController {
-
+	
 	@Autowired
-	private FuncionarioConverter funcionarioConverter;       
+	private FuncionarioConverter funcionarioConverter;
 
 	@Autowired
 	private CargoRepository cargoRepository;
 
-	@Autowired       	
-	private DepartamentoRepository departamentoRepository;               
+	@Autowired
+	private DepartamentoRepository departamentoRepository;
 
 	@Autowired
 	private FuncionarioService funcionarioService;
 
 	@Autowired
-	private EnderecoRespository enderecoRespository;
+	private EnderecoService enderecoService;
 
 	@Autowired
-	private FuncionarioRepository funcionarioRepository;    
- 
+	private FuncionarioRepository funcionarioRepository;
+
 	@InitBinder("funcionarioDTO")
 	public void init(WebDataBinder dataBinder) {
-		dataBinder.addValidators(new DataAdmissaoAnteriorDataAtual(), new DataNascimentoAnteriorDataAtual(), new ExistemCargosCadastrados(cargoRepository),
+		dataBinder.addValidators(new DataAdmissaoAnteriorDataAtual(), new DataNascimentoAnteriorDataAtual(),
+				new ExistemCargosCadastrados(cargoRepository),
 				new ExistemSetoresVinculadosDepartamentos(departamentoRepository),
 				new ExisteCargoPeloID(cargoRepository), new FuncionarioMaiorDeIdade(),
-				new EmailDuplicado(funcionarioRepository),
-				new CpfCadastrado(funcionarioRepository), new NomeFuncionarioCadastrado(funcionarioRepository), new DrtFuncionarioCadastrado(funcionarioRepository));
+				new EmailDuplicado(funcionarioRepository), new CpfCadastrado(funcionarioRepository),
+				new NomeFuncionarioCadastrado(funcionarioRepository),
+				new DrtFuncionarioCadastrado(funcionarioRepository));
 
 	}
 
@@ -102,12 +111,6 @@ public class FuncionarioController {
 		return mv;
 	}
 
-	@GetMapping("/pesquisar")
-	public ModelAndView pesquisar() {
-		ModelAndView mv = new ModelAndView("funcionario/pesquisa-funcionario");
-		return mv;
-	}
-
 	@PostMapping("/novo")
 	@Transactional
 	public ModelAndView cadastrar(@Valid FuncionarioDTO funcionarioDTO, BindingResult result, RedirectAttributes attr,
@@ -123,9 +126,7 @@ public class FuncionarioController {
 
 		Funcionario funcionario = this.funcionarioConverter.converterDtoForEntity(funcionarioDTO);
 
-		Endereco endereco = funcionario.getEndereco();
-
-		this.enderecoRespository.save(endereco);
+		this.enderecoService.salvarEndereco(funcionarioDTO.getEndereco());
 
 		this.funcionarioService.salvarFuncionario(funcionario);
 
@@ -133,6 +134,23 @@ public class FuncionarioController {
 
 		return new ModelAndView("redirect:/funcionarios/novo");
 	}
-	
+
+	@GetMapping
+	public ModelAndView pesquisar(FuncionarioPesquisaDTO funcionarioPesquisaDTO, BindingResult result,
+			@PageableDefault(size = 1) Pageable pageable, HttpServletRequest request,
+			FuncionarioPesquisaSpec funcionarioPesquisaSpec) {
+
+		ModelAndView mv = new ModelAndView("funcionario/pesquisa-funcionario");
+
+		Specification<Funcionario> specification = funcionarioPesquisaSpec.findAllFuncByNomeCpfDrt();
+
+		Page<Funcionario> page = this.funcionarioRepository.findAll(specification, pageable);
+
+		PageWrapper<Funcionario> pageWrapper = new PageWrapper<>(page, request);
+
+		mv.addObject("page", pageWrapper);
+
+		return mv;
+	}
 
 }

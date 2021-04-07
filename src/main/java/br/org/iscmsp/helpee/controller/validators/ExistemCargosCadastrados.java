@@ -6,7 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import br.org.iscmsp.helpee.model.Cargo;
-import br.org.iscmsp.helpee.model.input.dto.FuncionarioDTO;
+import br.org.iscmsp.helpee.model.dto.input.FuncionarioDTO;
 import br.org.iscmsp.helpee.repository.CargoRepository;
 
 public class ExistemCargosCadastrados implements Validator {

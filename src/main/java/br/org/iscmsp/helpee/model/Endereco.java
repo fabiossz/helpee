@@ -59,8 +59,6 @@ public class Endereco implements Serializable {
 	@Column(nullable = false, length = 20)
 	@NotBlank(message = "Estado é obrigatório.")
 	@Size(min = 2, max = 60, message = "Estado deve conter entre {min} e {max} caracteres.")
-	// TODO regex para estado, aceitar somente letras e os caracteres especiais(´ e
-	// ~)
 	private String estado;
 
 	@Column(nullable = false, length = 8)

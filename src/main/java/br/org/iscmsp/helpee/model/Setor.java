@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -50,7 +49,7 @@ public class Setor implements Serializable {
 	@Size(min = 4, max = 8, message = "Telefone do Setor deve conter entre {min} e {max} caracteres")
 	private String ramal;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "id_departamento_fk")
 	@JsonIgnore
 	private Departamento departamento;

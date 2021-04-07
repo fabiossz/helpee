@@ -1,5 +1,6 @@
 package br.org.iscmsp.helpee.repository;
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +14,8 @@ public interface DepartamentoRepository extends JpaRepository<Departamento, Long
 
 	@Query(value = "SELECT d FROM Departamento d " + "JOIN d.setores s")
 	Set<Departamento> findDepartamentoBySetor();
+	
+	Optional<Departamento> findById(String id);
 	
 	
 

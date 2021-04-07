@@ -6,7 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import br.org.iscmsp.helpee.model.Cargo;
-import br.org.iscmsp.helpee.model.input.dto.FuncionarioDTO;
+import br.org.iscmsp.helpee.model.dto.input.FuncionarioDTO;
 import br.org.iscmsp.helpee.repository.CargoRepository;
 
 public class ExisteCargoPeloID implements Validator {
@@ -29,8 +29,8 @@ public class ExisteCargoPeloID implements Validator {
 			FuncionarioDTO funcionarioDTO = (FuncionarioDTO) target;	
 			Optional<Cargo> cargo = null;
 			
-			if(funcionarioDTO.getIdCargo() != null) {
-				cargo = this.cargoRepository.findById(funcionarioDTO.getIdCargo());	
+			if(funcionarioDTO.getCargo() != null) {
+				cargo = this.cargoRepository.findById(funcionarioDTO.getCargo());	
 				
 				if (!cargo.isPresent() || cargo.isEmpty()) {
 					errors.rejectValue("idCargo", null, "Cargo não encontrado.");

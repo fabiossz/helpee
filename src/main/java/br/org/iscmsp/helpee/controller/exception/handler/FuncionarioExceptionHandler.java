@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.org.iscmsp.helpee.model.input.dto.FuncionarioDTO;
+import br.org.iscmsp.helpee.model.dto.input.FuncionarioDTO;
 
 @ControllerAdvice(basePackages = "br.org.iscmsp.helpee.controller")
 public class FuncionarioExceptionHandler {	

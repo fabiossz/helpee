@@ -13,9 +13,9 @@ public class FuncionarioService {
 	@Autowired
 	private FuncionarioRepository funcionarioRepository;
 
-	
+	@Transactional
 	public void salvarFuncionario(Funcionario funcionario) {
 		this.funcionarioRepository.save(funcionario);
-	}	
-	
+	}
+
 }

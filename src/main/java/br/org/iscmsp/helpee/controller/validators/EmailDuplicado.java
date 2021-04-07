@@ -6,7 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import br.org.iscmsp.helpee.model.Funcionario;
-import br.org.iscmsp.helpee.model.input.dto.FuncionarioDTO;
+import br.org.iscmsp.helpee.model.dto.input.FuncionarioDTO;
 import br.org.iscmsp.helpee.repository.FuncionarioRepository;
 
 public class EmailDuplicado implements Validator {

@@ -14,8 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -66,7 +64,7 @@ public class Funcionario implements Serializable {
 	@Column(nullable = false, length = 11)
 	private String telefone_celular;
 
-	@Column(nullable = false, columnDefinition = "DATE")	
+	@Column(nullable = false, columnDefinition = "DATE")
 	private LocalDate data_admissao;
 
 	@Column(nullable = true, columnDefinition = "DATE")
@@ -83,9 +81,9 @@ public class Funcionario implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "id_departamento_fk")
 	private Departamento departamento;
-  
+
 	@Deprecated
-	protected Funcionario() {
+	public Funcionario() {
 	}
 
 	@PrePersist
@@ -125,7 +123,5 @@ public class Funcionario implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
 
 }
